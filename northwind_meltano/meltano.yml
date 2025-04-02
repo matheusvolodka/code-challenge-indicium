@@ -31,56 +31,55 @@ plugins:
     inherit_from: tap-csv
     config:
       files:
-      - entity: order_details
+      - entity: orders
         path: ../ext_data/date/csv/order_details.csv
         keys:
         - order_id
-        - product_id
-      - entity: categories
-        path: ../ext_data/date/postgres/public-categories.csv
-        keys:
-        - category_id
-      - entity: customers
-        path: ../ext_data/date/postgres/public-customers.csv
-        keys:
-        - customer_id
-      - entity: employee_territories
-        path: ../ext_data/date/postgres/public-employee_territories.csv
-        keys:
-        - employee_id
-        - territory_id
-      - entity: employees
-        path: ../ext_data/date/postgres/public-employees.csv
-        keys:
-        - employee_id
-      - entity: orders
-        path: ../ext_data/date/postgres/public-orders.csv
-        keys:
-        - order_id
-      - entity: products
-        path: ../ext_data/date/postgres/public-products.csv
-        keys:
-        - product_id
-      - entity: region
-        path: ../ext_data/date/postgres/public-region.csv
-        keys:
-        - region_id
-      - entity: shippers
-        path: ../ext_data/date/postgres/public-shippers.csv
-        keys:
-        - shipper_id
-      - entity: suppliers
-        path: ../ext_data/date/postgres/public-suppliers.csv
-        keys:
-        - supplier_id
-      - entity: territory
-        path: ../ext_data/date/postgres/public-territories.csv
-        keys:
-        - territory_id
-      - entity: us_states
-        path: ../ext_data/date/postgres/public-us_states.csv
-        keys:
-        - state_id
+      # - entity: categories
+      #   path: ../ext_data/date/postgres/public-categories.csv
+      #   keys:
+      #   - category_id
+      # - entity: customers
+      #   path: ../ext_data/date/postgres/public-customers.csv
+      #   keys:
+      #   - customer_id
+      # - entity: employee_territories
+      #   path: ../ext_data/date/postgres/public-employee_territories.csv
+      #   keys:
+      #   - employee_id
+      #   - territory_id
+      # - entity: employees
+      #   path: ../ext_data/date/postgres/public-employees.csv
+      #   keys:
+      #   - employee_id
+      # - entity: orders
+      #   path: ../ext_data/date/postgres/public-orders.csv
+      #   keys:
+      #   - order_id
+      # - entity: products
+      #   path: ../ext_data/date/postgres/public-products.csv
+      #   keys:
+      #   - product_id
+      # - entity: region
+      #   path: ../ext_data/date/postgres/public-region.csv
+      #   keys:
+      #   - region_id
+      # - entity: shippers
+      #   path: ../ext_data/date/postgres/public-shippers.csv
+      #   keys:
+      #   - shipper_id
+      # - entity: suppliers
+      #   path: ../ext_data/date/postgres/public-suppliers.csv
+      #   keys:
+      #   - supplier_id
+      # - entity: territory
+      #   path: ../ext_data/date/postgres/public-territories.csv
+      #   keys:
+      #   - territory_id
+      # - entity: us_states
+      #   path: ../ext_data/date/postgres/public-us_states.csv
+      #   keys:
+      #   - state_id
   loaders:
   - name: target-csv
     variant: meltanolabs
@@ -98,8 +97,6 @@ plugins:
       host: localhost
       port: 5433
       database: northwind
-      filter_schemas:
-      - public
   - name: target-csv--postgres
     inherit_from: target-csv
     config:
