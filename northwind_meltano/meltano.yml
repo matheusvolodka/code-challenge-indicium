@@ -1,0 +1,108 @@
+version: 1
+default_environment: dev
+project_id: 2459e0cb-246c-4507-b57d-3e012610d72e
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-csv
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
+    config:
+      files:
+      - entity: order_details
+        path: ../data
+        keys:
+        - order_id
+  - name: tap-postgres
+    variant: meltanolabs
+    pip_url: meltanolabs-tap-postgres
+    config:
+      user: northwind_user
+      password: thewindisblowing
+      host: localhost
+      port: 5433
+      database: northwind
+      filter_schemas:
+      - public
+  - name: tap-csv--2
+    inherit_from: tap-csv
+    config:
+      files:
+      - entity: order_details
+        path: ../ext_data/date/csv/order_details.csv
+        keys:
+        - order_id
+        - product_id
+      - entity: categories
+        path: ../ext_data/date/postgres/public-categories.csv
+        keys:
+        - category_id
+      - entity: customers
+        path: ../ext_data/date/postgres/public-customers.csv
+        keys:
+        - customer_id
+      - entity: employee_territories
+        path: ../ext_data/date/postgres/public-employee_territories.csv
+        keys:
+        - employee_id
+        - territory_id
+      - entity: employees
+        path: ../ext_data/date/postgres/public-employees.csv
+        keys:
+        - employee_id
+      - entity: orders
+        path: ../ext_data/date/postgres/public-orders.csv
+        keys:
+        - order_id
+      - entity: products
+        path: ../ext_data/date/postgres/public-products.csv
+        keys:
+        - product_id
+      - entity: region
+        path: ../ext_data/date/postgres/public-region.csv
+        keys:
+        - region_id
+      - entity: shippers
+        path: ../ext_data/date/postgres/public-shippers.csv
+        keys:
+        - shipper_id
+      - entity: suppliers
+        path: ../ext_data/date/postgres/public-suppliers.csv
+        keys:
+        - supplier_id
+      - entity: territory
+        path: ../ext_data/date/postgres/public-territories.csv
+        keys:
+        - territory_id
+      - entity: us_states
+        path: ../ext_data/date/postgres/public-us_states.csv
+        keys:
+        - state_id
+  loaders:
+  - name: target-csv
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/target-csv.git
+    config:
+      output_path: ../ext_data/date/csv
+      timestamp_format: '"%Y-%m-%d"'
+      file_naming_scheme: '{stream_name}.csv'
+  - name: target-postgres
+    variant: meltanolabs
+    pip_url: meltanolabs-target-postgres
+    config:
+      user: northwind_user
+      password: thewindisblowing
+      host: localhost
+      port: 5433
+      database: northwind
+      filter_schemas:
+      - public
+  - name: target-csv--postgres
+    inherit_from: target-csv
+    config:
+      output_path: ../ext_data/date/postgres
+      timestamp_format: '"%Y-%m-%d"'
+      file_naming_scheme: '{stream_name}.csv'
